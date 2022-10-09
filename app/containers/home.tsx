@@ -1,12 +1,8 @@
 import { Box, Heading, Text } from '@chakra-ui/react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth } from 'utils/firebase/auth';
 
 export const HomeContainer: React.FC = () => {
-  const [user, loading, error] = useAuthState(auth);
-
   return (
-    <Box textAlign="center" pt="10rem">
+    <Box textAlign="center" pt="8rem">
       <Heading>
         Welcome to <br />
         <Text as="span" fontSize="9xl" fontWeight="900">
