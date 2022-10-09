@@ -41,7 +41,7 @@ export const verifyEmail = (email: string) => {
     url:
       process.env.NODE_ENV === 'development'
         ? `http://localhost:3003/email-verification?email=${email}`
-        : `https://gifa-guild-zone.vercel.app/email-verification?email=${email}`,
+        : `https://guild-zone.vercel.app/email-verification?email=${email}`,
     handleCodeInApp: true,
   });
   return fetchHandler(fetcher);
