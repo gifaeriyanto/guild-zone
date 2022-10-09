@@ -11,6 +11,7 @@ import {
 import { pipe, replace } from 'ramda';
 import { fetchHandler } from 'utils/api';
 import { firebaseApp } from 'utils/firebase';
+import { errorHandler, errorMessage } from 'utils/firebase/error';
 import { capitalizeFirstLetter } from 'utils/string';
 
 interface authParams {
@@ -53,19 +54,6 @@ export const logInWithLink = (email: string) => {
   }
 };
 
-export const authErrorMessage = (error: AuthError) =>
-  pipe(
-    replace('auth/', ''),
-    replace(/-/g, ' '),
-    capitalizeFirstLetter,
-  )(error.code);
-
-export const authErrorHandler = (error: Error | undefined) => {
-  if (!error && !error?.['code']) {
-    return;
-  }
-  const authError = error as AuthError;
-  return authErrorMessage(authError);
-};
+export const authErrorHandler = errorHandler('auth');
 
 export const isVerified = () => Boolean(auth.currentUser?.emailVerified);
