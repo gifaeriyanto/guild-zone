@@ -53,7 +53,9 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
             {user?.displayName ? (
               <HStack spacing={8}>
                 <Link href="/create-guild">
-                  <Button>Create Guild</Button>
+                  <Button variant="solid" colorScheme="gray">
+                    Create Guild
+                  </Button>
                 </Link>
                 <Box>
                   Hi {user.displayName},{' '}
