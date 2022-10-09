@@ -16,7 +16,9 @@ const Index: NextPage = () => {
         <GuildListContainer query={{ limit: 3 }} />
         <Flex justify="center" mt={8}>
           <Link href="/guilds">
-            <Button>See more Guilds</Button>
+            <a>
+              <Button>See more Guilds</Button>
+            </a>
           </Link>
         </Flex>
       </Box>

@@ -2,6 +2,9 @@ import {
   addDoc,
   collection,
   CollectionReference,
+  doc,
+  DocumentReference,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -13,6 +16,7 @@ import { auth } from 'utils/firebase/auth';
 import { db } from 'utils/firebase/db';
 
 export interface GuildData {
+  uid?: string;
   name: string;
   email: string;
   twitter?: string;
@@ -29,6 +33,8 @@ const guildsCollection = collection(
   'guilds',
 ) as CollectionReference<GuildData>;
 const guildMembersCollection = collection(db, 'guild-members');
+const guildDetailCollection = (uid: string) =>
+  doc(db, 'guilds', uid) as DocumentReference<GuildData>;
 
 export const createGuild = async (data: GuildData) => {
   const fetcher = addDoc(guildsCollection, {
@@ -48,5 +54,10 @@ export const getGuilds =
 
 export const getGuildMembers = async () => {
   const fetcher = getDocs(guildMembersCollection);
+  return fetchHandler(fetcher);
+};
+
+export const getGuildDetail = async (uid: string) => {
+  const fetcher = getDoc(guildDetailCollection(uid));
   return fetchHandler(fetcher);
 };
