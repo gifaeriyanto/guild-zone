@@ -59,11 +59,7 @@ export const GuildDetailContainer: React.FC = () => {
             </GridItem>
             <GridItem>
               <Heading mb={10}>{detail?.name}</Heading>
-              <Text fontSize="sm">
-                {Boolean(detail?.slots)
-                  ? `Slots: ${detail?.slots || 0}`
-                  : 'No slots are available'}
-              </Text>
+              <Text fontSize="sm">{detail?.message}</Text>
               <HStack mt={4} spacing={4}>
                 {Boolean(detail?.discord) && (
                   <CLink href={detail?.discord} target="_blank">

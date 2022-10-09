@@ -91,11 +91,7 @@ export const GuildListContainer: React.FC<GuildListContainerProps> = ({
                     </Heading>
                   </a>
                 </Link>
-                <Text fontSize="sm">
-                  {Boolean(guild.slots)
-                    ? `Slots: ${guild.slots || 0}`
-                    : 'No slots are available'}
-                </Text>
+                <Text fontSize="sm">{guild.message}</Text>
                 <HStack mt={4} spacing={4}>
                   {Boolean(guild.discord) && (
                     <CLink href={guild.discord} target="_blank">
