@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Box,
+  Heading,
   Tab,
   Table,
   TableContainer,
@@ -86,8 +87,17 @@ export const GuildMembersContainer: React.FC = () => {
     }
   }, [guilds]);
 
+  if (!loading && !guilds.length) {
+    return (
+      <Box textAlign="center">
+        <Heading>No guilds</Heading>
+      </Box>
+    );
+  }
+
   return (
     <Box>
+      <Heading mb={8}>Guild Members</Heading>
       <Tabs onChange={handleSelectGuild} colorScheme="brand">
         <TabList>
           {guilds.map((guild) => (

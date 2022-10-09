@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Icon } from '@chakra-ui/react';
 import { GuildListContainer } from 'containers/guildList';
 import { HomeContainer } from 'containers/home';
 import { NextPage } from 'next';

@@ -26,7 +26,7 @@ export const EmailVerificationContainer: React.FC = () => {
   };
 
   const verify = (email: string) => () => {
-    if (isVerified()) {
+    if (!isVerified()) {
       verifyEmail(email);
     }
   };

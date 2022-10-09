@@ -5,7 +5,9 @@ import {
   Container,
   Flex,
   HStack,
+  Icon,
   Img,
+  Text,
   useDisclosure,
 } from '@chakra-ui/react';
 import { LogInModal } from 'components/modals/logInModal';
@@ -88,7 +90,8 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
             )}
           </Box>
         </Flex>
-        {children}
+
+        <Box>{children}</Box>
       </Container>
 
       <SignUpModal isOpen={isOpenSignUpModal} onClose={onCloseSignUpModal} />
