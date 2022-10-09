@@ -87,7 +87,7 @@ export const SignUpModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSignUp}>
-            <ModalHeader>Modal Title</ModalHeader>
+            <ModalHeader>Sign Up</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={4}>
