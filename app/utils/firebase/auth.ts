@@ -67,3 +67,5 @@ export const authErrorHandler = (error: Error | undefined) => {
   const authError = error as AuthError;
   return authErrorMessage(authError);
 };
+
+export const isVerified = () => Boolean(auth.currentUser?.emailVerified);
