@@ -91,13 +91,13 @@ export const SignUpModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={4}>
-                <FormControl isDisabled={loading}>
+                <FormControl isDisabled={loading} isRequired>
                   <Input name="name" placeholder="Full name" />
                 </FormControl>
-                <FormControl isDisabled={loading}>
+                <FormControl isDisabled={loading} isRequired>
                   <Input name="email" placeholder="Email" />
                 </FormControl>
-                <FormControl isDisabled={loading}>
+                <FormControl isDisabled={loading} isRequired>
                   <Input
                     type="password"
                     name="password"

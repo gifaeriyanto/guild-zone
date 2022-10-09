@@ -14,7 +14,7 @@ import {
   useToast,
   VStack,
 } from '@chakra-ui/react';
-import { andThen, otherwise, pipe, tap, tryCatch } from 'ramda';
+import { andThen, otherwise, pipe, tap } from 'ramda';
 import {
   formPreventDefault,
   getFieldsData,
@@ -62,10 +62,10 @@ export const LogInModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             <ModalCloseButton />
             <ModalBody>
               <VStack spacing={4}>
-                <FormControl isDisabled={loading}>
+                <FormControl isDisabled={loading} isRequired>
                   <Input name="email" placeholder="Email" />
                 </FormControl>
-                <FormControl isDisabled={loading}>
+                <FormControl isDisabled={loading} isRequired>
                   <Input
                     type="password"
                     name="password"
