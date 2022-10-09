@@ -16,21 +16,22 @@ const Index: NextPage = () => {
     return Boolean(apiKey && oobCode);
   };
 
-  const verifyOrBack = () => {
-    if (user?.emailVerified) {
+  const verify = () => {
+    if (!user?.emailVerified) {
       user?.email && verifyEmail(user?.email);
-    } else {
-      router.back();
     }
   };
 
   useEffect(() => {
     if (isVerifying()) {
-      logInWithLink();
+      user?.email &&
+        logInWithLink(user?.email)?.then(() =>
+          router.push('/email-verification'),
+        );
     } else {
-      verifyOrBack();
+      verify();
     }
-  }, []);
+  }, [user]);
 
   return (
     <>Email status: {user?.emailVerified ? 'verified' : 'not verified'} </>

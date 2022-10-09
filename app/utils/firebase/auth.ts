@@ -7,7 +7,6 @@ import {
   signInWithEmailAndPassword,
   signInWithEmailLink,
   signOut,
-  UserCredential,
 } from 'firebase/auth';
 import { pipe, replace } from 'ramda';
 import { fetchHandler } from 'utils/api';
@@ -40,26 +39,16 @@ export const verifyEmail = (email: string) => {
   const fetcher = sendSignInLinkToEmail(auth, email, {
     url:
       process.env.NODE_ENV === 'development'
-        ? 'http://localhost:3003/email-verification'
-        : 'https://gifa-guild-zone.vercel.app/email-verification',
+        ? `http://localhost:3003/email-verification?email=${email}`
+        : `https://gifa-guild-zone.vercel.app/email-verification?email=${email}`,
     handleCodeInApp: true,
-  }).then(() => {
-    window.localStorage.setItem('emailForSignIn', email);
   });
   return fetchHandler(fetcher);
 };
 
-export const logInWithLink = () => {
+export const logInWithLink = (email: string) => {
   if (isSignInWithEmailLink(auth, window.location.href)) {
-    const email = window.localStorage.getItem('emailForSignIn');
-    if (!email) {
-      return;
-    }
-    const fetcher = signInWithEmailLink(auth, email, window.location.href).then(
-      () => {
-        window.localStorage.removeItem('emailForSignIn');
-      },
-    );
+    const fetcher = signInWithEmailLink(auth, email, window.location.href);
     return fetchHandler(fetcher);
   }
 };
