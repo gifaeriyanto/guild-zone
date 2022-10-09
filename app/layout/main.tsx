@@ -38,13 +38,14 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <Container maxW="container.lg">
-        <Flex py={8} justify="space-between">
+      <Container maxW="container.lg" mb="8rem">
+        <Flex py={8} justify="space-between" mb={8}>
           <Box>
             <Link href="/">
               <Img
                 src="https://assets.website-files.com/62d867fa7c6c5d5faaf26ad3/62dc01ef48e9488670b72569_logo2.svg"
                 alt="Blockchain Space Logo"
+                cursor="pointer"
               />
             </Link>
           </Box>
