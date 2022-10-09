@@ -1,8 +1,5 @@
 import { inputAnatomy as parts } from '@chakra-ui/anatomy';
-import {
-  createMultiStyleConfigHelpers,
-  defineStyleConfig,
-} from '@chakra-ui/react';
+import { createMultiStyleConfigHelpers } from '@chakra-ui/react';
 import { cuboid2D } from 'theme/clipPaths';
 
 const helpers = createMultiStyleConfigHelpers(parts.keys);

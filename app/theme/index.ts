@@ -2,6 +2,7 @@ import { extendTheme } from '@chakra-ui/react';
 import { ButtonTheme } from 'theme/components/button';
 import { InputTheme } from 'theme/components/input';
 import { ModalTheme } from 'theme/components/modal';
+import { TextareaTheme } from 'theme/components/textarea';
 
 export const guildZoneTheme = extendTheme({
   config: {
@@ -37,5 +38,6 @@ export const guildZoneTheme = extendTheme({
     Button: ButtonTheme,
     Input: InputTheme,
     Modal: ModalTheme,
+    Textarea: TextareaTheme,
   },
 });
