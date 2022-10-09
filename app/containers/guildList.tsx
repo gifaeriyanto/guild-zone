@@ -11,13 +11,26 @@ import {
   Text,
   useBoolean,
 } from '@chakra-ui/react';
-import { QueryDocumentSnapshot, QuerySnapshot } from 'firebase/firestore/lite';
+import {
+  limit,
+  orderBy,
+  QueryDocumentSnapshot,
+  QuerySnapshot,
+} from 'firebase/firestore/lite';
 import { andThen, map, pipe, tap } from 'ramda';
 import { SiDiscord, SiTelegram, SiTwitter } from 'react-icons/si';
 import { cuboid2D } from 'theme/clipPaths';
 import { getGuilds, GuildData } from 'utils/firebase/db/guild';
 
-export const GuildListContainer: React.FC = () => {
+export interface GuildListContainerProps {
+  query?: {
+    limit: number;
+  };
+}
+
+export const GuildListContainer: React.FC<GuildListContainerProps> = ({
+  query,
+}) => {
   const [loading, setLoading] = useBoolean();
   const [guilds, setGuilds] = useState<GuildData[]>([]);
 
@@ -27,7 +40,7 @@ export const GuildListContainer: React.FC = () => {
 
   const _getGuilds = pipe(
     tap(setLoading.on),
-    getGuilds,
+    getGuilds(orderBy('created_at'), limit(query?.limit || 25)),
     andThen(pickDocs),
     andThen(map(pickGuildData)),
     andThen(setGuilds),
