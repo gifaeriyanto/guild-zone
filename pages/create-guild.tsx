@@ -1,12 +1,18 @@
 import { CreateGuildContainer } from 'containers/createGuild';
 import AuthLayout from 'layout/auth';
 import { NextPage } from 'next';
+import Head from 'next/head';
 
 const Index: NextPage = () => {
   return (
-    <AuthLayout>
-      <CreateGuildContainer />
-    </AuthLayout>
+    <>
+      <Head>
+        <title>Create Your Guild</title>
+      </Head>
+      <AuthLayout>
+        <CreateGuildContainer />
+      </AuthLayout>
+    </>
   );
 };
 
