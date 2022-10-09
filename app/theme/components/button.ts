@@ -15,6 +15,10 @@ export const ButtonTheme = defineStyleConfig({
       clipPath: cuboid2D,
       px: 8,
     },
+    solid: {
+      clipPath: cuboid2D,
+      px: 8,
+    },
     ghost: {
       _hover: {
         bgColor: 'inherit',
