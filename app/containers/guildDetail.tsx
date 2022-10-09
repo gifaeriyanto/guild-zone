@@ -14,16 +14,19 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { andThen, pipe, tap } from 'ramda';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { SiDiscord, SiTelegram, SiTwitter } from 'react-icons/si';
 import { cuboid2D } from 'theme/clipPaths';
+import { auth } from 'utils/firebase/auth';
 import { getGuildDetail, GuildData } from 'utils/firebase/db/guild';
 
 export const GuildDetailContainer: React.FC = () => {
+  const [user] = useAuthState(auth);
   const [loading, setLoading] = useBoolean();
   const [detail, setDetail] = useState<GuildData>();
   const router = useRouter();
 
-  const guildId = useMemo(() => router.query?.id, [router]);
+  const guildId = useMemo(() => router.query?.id?.toString() || '', [router]);
 
   const redirectTo404 = (data: GuildData | undefined) => {
     if (!data) {
@@ -41,7 +44,7 @@ export const GuildDetailContainer: React.FC = () => {
   );
 
   useEffect(() => {
-    guildId && fetchGuildDetail(String(guildId));
+    guildId && fetchGuildDetail(guildId);
   }, [guildId]);
 
   return (
@@ -78,11 +81,13 @@ export const GuildDetailContainer: React.FC = () => {
                   </CLink>
                 )}
               </HStack>
-              <Link href={`/guilds/${guildId}/join`}>
-                <a>
-                  <Button mt={10}>Join Guild</Button>
-                </a>
-              </Link>
+              {!user && (
+                <Link href={`/guilds/${guildId}/join`}>
+                  <a>
+                    <Button mt={10}>Join Guild</Button>
+                  </a>
+                </Link>
+              )}
             </GridItem>
           </Grid>
         </Box>

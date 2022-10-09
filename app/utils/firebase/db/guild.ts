@@ -10,6 +10,7 @@ import {
   orderBy,
   query,
   QueryConstraint,
+  where,
 } from 'firebase/firestore/lite';
 import { fetchHandler } from 'utils/api';
 import { auth } from 'utils/firebase/auth';
@@ -28,11 +29,23 @@ export interface GuildData {
   createdAt?: Date;
 }
 
+export interface GuildMemberData {
+  uid?: string;
+  email: string;
+  subject: string;
+  message: string;
+  createdAt?: Date;
+  guildUid?: string;
+}
+
 const guildsCollection = collection(
   db,
   'guilds',
 ) as CollectionReference<GuildData>;
-const guildMembersCollection = collection(db, 'guild-members');
+const guildMembersCollection = collection(
+  db,
+  'guild-members',
+) as CollectionReference<GuildMemberData>;
 const guildDetailCollection = (uid: string) =>
   doc(db, 'guilds', uid) as DocumentReference<GuildData>;
 
@@ -52,8 +65,10 @@ export const getGuilds =
     return fetchHandler(fetcher);
   };
 
-export const getGuildMembers = async () => {
-  const fetcher = getDocs(guildMembersCollection);
+export const getGuildMembers = async (guildUid: string) => {
+  const fetcher = getDocs(
+    query(guildMembersCollection, where('guildUid', '==', guildUid)),
+  );
   return fetchHandler(fetcher);
 };
 
@@ -61,3 +76,13 @@ export const getGuildDetail = async (uid: string) => {
   const fetcher = getDoc(guildDetailCollection(uid));
   return fetchHandler(fetcher);
 };
+
+export const joinGuild =
+  (guildUid: string) => async (data: GuildMemberData) => {
+    const fetcher = addDoc(guildMembersCollection, {
+      ...data,
+      guildUid,
+      createdAt: new Date(),
+    });
+    return fetchHandler(fetcher);
+  };

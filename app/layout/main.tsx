@@ -17,7 +17,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, logOut } from 'utils/firebase/auth';
 
 export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
   const router = useRouter();
   const {
     isOpen: isOpenSignUpModal,
@@ -53,6 +53,11 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
           <Box>
             {user?.displayName ? (
               <HStack spacing={8}>
+                <Link href="/guild-members">
+                  <a>
+                    <Button variant="ghost">Guild Members</Button>
+                  </a>
+                </Link>
                 <Link href="/create-guild">
                   <a>
                     <Button variant="solid" colorScheme="gray">

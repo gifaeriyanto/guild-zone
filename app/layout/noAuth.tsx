@@ -4,17 +4,17 @@ import { useRouter } from 'next/router';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from 'utils/firebase/auth';
 
-export const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
+export const NoAuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, loading] = useAuthState(auth);
   const router = useRouter();
 
-  const isNotAuth = !loading && !user?.uid;
+  const isAuth = !loading && user?.uid;
 
   useEffect(() => {
-    if (isNotAuth) {
+    if (isAuth) {
       router.push('/');
     }
-  }, [isNotAuth]);
+  }, [isAuth]);
 
   if (loading) {
     return (
@@ -24,7 +24,7 @@ export const AuthLayout: React.FC<PropsWithChildren> = ({ children }) => {
     );
   }
 
-  if (isNotAuth) {
+  if (isAuth) {
     return null;
   }
 
