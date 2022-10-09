@@ -1,7 +1,17 @@
 import React, { useEffect } from 'react';
-import { Box, Button, Heading } from '@chakra-ui/react';
+import { Box, Button, Heading, useBoolean } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { pipe } from 'ramda';
+import {
+  always,
+  andThen,
+  equals,
+  has,
+  ifElse,
+  not,
+  pipe,
+  PredTypeguard,
+  tap,
+} from 'ramda';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   auth,
@@ -13,6 +23,8 @@ import { getQueries, getSearchParams } from 'utils/url';
 
 export const EmailVerificationContainer: React.FC = () => {
   const [user] = useAuthState(auth);
+  const [loading, setLoading] = useBoolean();
+  const [isSent, setIsSent] = useBoolean();
   const router = useRouter();
 
   const _getQueries = pipe(
@@ -25,11 +37,16 @@ export const EmailVerificationContainer: React.FC = () => {
     return Boolean(queries.apiKey && queries.email && queries.oobCode);
   };
 
-  const verify = (email: string) => () => {
-    if (!isVerified()) {
-      verifyEmail(email);
-    }
-  };
+  const verify = ifElse(
+    isVerified,
+    always,
+    pipe(
+      tap(setLoading.on),
+      verifyEmail,
+      andThen(setIsSent.on),
+      andThen(setLoading.off),
+    ),
+  );
 
   useEffect(() => {
     if (!user?.email) {
@@ -49,12 +66,21 @@ export const EmailVerificationContainer: React.FC = () => {
         </>
       ) : (
         <>
-          <Heading>Your email is not verified</Heading>
-          {!!user?.email && (
-            <Button onClick={verify(user.email)} mt={8}>
-              Verify now
-            </Button>
-          )}
+          <Heading>
+            {isSent
+              ? 'Email verification has been sent'
+              : 'Your email is not verified'}
+          </Heading>
+          <Box mt={8}>
+            {user?.email && (
+              <Button
+                onClick={() => user.email && verify(user.email)}
+                isDisabled={loading}
+              >
+                {loading ? 'Sending...' : isSent ? 'Send again' : 'Verify now'}
+              </Button>
+            )}
+          </Box>
         </>
       )}
     </Box>

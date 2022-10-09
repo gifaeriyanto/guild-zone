@@ -56,4 +56,6 @@ export const logInWithLink = (email: string) => {
 
 export const authErrorHandler = errorHandler('auth');
 
-export const isVerified = () => Boolean(auth.currentUser?.emailVerified);
+// The unused param only to make it composable
+export const isVerified = (_?: string) =>
+  Boolean(auth.currentUser?.emailVerified);

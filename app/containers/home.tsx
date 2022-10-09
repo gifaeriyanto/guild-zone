@@ -9,7 +9,7 @@ export const HomeContainer: React.FC = () => {
   const [user] = useAuthState(auth);
 
   const emailVerificationAlert = () => {
-    if (user?.emailVerified) {
+    if (!user || user?.emailVerified) {
       return null;
     }
 
