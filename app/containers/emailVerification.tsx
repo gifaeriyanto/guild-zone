@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { UserCredential } from 'firebase/auth';
 import { useRouter } from 'next/router';
-import { always, has, ifElse, isNil, not, pipe, propEq, where } from 'ramda';
+import { pipe } from 'ramda';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {
   auth,
