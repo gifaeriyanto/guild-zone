@@ -83,13 +83,11 @@ export const GuildDetailContainer: React.FC = () => {
                   </CLink>
                 )}
               </HStack>
-              {!user && (
-                <Link href={`/guilds/${guildId}/join`}>
-                  <a>
-                    <Button mt={10}>Join Guild</Button>
-                  </a>
-                </Link>
-              )}
+              <Link href={`/guilds/${guildId}/join`}>
+                <a>
+                  <Button mt={10}>Join Guild</Button>
+                </a>
+              </Link>
             </GridItem>
           </Grid>
         </Box>
