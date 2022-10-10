@@ -61,7 +61,7 @@ export const CreateGuildContainer: React.FC = () => {
 
   return (
     <Grid
-      templateColumns="repeat(2, 1fr)"
+      templateColumns={{ md: 'repeat(2, 1fr)' }}
       borderBottom="4px solid"
       borderColor="brand.400"
       clipPath={cuboid2D}
@@ -70,7 +70,7 @@ export const CreateGuildContainer: React.FC = () => {
         <Flex
           alignItems="center"
           justify="center"
-          h="full"
+          h={{ md: 'full', base: '200px' }}
           bg="url('/create-guild-cover.jpg') no-repeat center/cover"
         >
           <Heading

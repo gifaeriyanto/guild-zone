@@ -53,9 +53,15 @@ export const GuildDetailContainer: React.FC = () => {
         <Box textAlign="center">Loading...</Box>
       ) : (
         <Box clipPath={cuboid2D} bgColor="gray.700" p={8}>
-          <Grid templateColumns="1fr 3fr" gap={8}>
+          <Grid templateColumns={{ sm: '1fr 3fr' }} gap={8}>
             <GridItem>
-              <Box clipPath={cuboid2D} bgColor="brand.200" w="full" h="full" />
+              <Box
+                clipPath={cuboid2D}
+                w="full"
+                h={{ sm: 'full', base: '200px' }}
+                bg="url(/guild-logo.jpeg) no-repeat center/cover"
+                bgColor="brand.200"
+              />
             </GridItem>
             <GridItem>
               <Heading mb={10}>{detail?.name}</Heading>

@@ -63,7 +63,10 @@ export const GuildListContainer: React.FC<GuildListContainerProps> = ({
       {loading ? (
         <Box textAlign="center">Loading...</Box>
       ) : (
-        <Grid templateColumns="repeat(3, 1fr)" gap={8}>
+        <Grid
+          templateColumns={{ lg: 'repeat(3, 1fr)', sm: 'repeat(2, 1fr)' }}
+          gap={8}
+        >
           {guilds.map((guild, index) => (
             <GridItem key={index}>
               <Box clipPath={cuboid2D} p={4} bgColor="gray.700" h="100%">
@@ -76,12 +79,11 @@ export const GuildListContainer: React.FC<GuildListContainerProps> = ({
                   mb={12}
                 >
                   <Box
-                    bgColor="brand.200"
-                    w="60px"
-                    h="60px"
+                    w="100px"
+                    h="100px"
                     mt="60px"
-                    ml={4}
                     borderRadius="full"
+                    bg="url(/guild-logo.png) no-repeat center/cover"
                   />
                 </Flex>
                 <Link href={`/guilds/${guild?.uid || ''}`}>

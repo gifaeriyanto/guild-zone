@@ -43,7 +43,11 @@ export const HomeContainer: React.FC = () => {
       <Box textAlign="center" pt="8rem">
         <Heading>
           Welcome to <br />
-          <Text as="span" fontSize="9xl" fontWeight="900">
+          <Text
+            as="span"
+            fontSize={{ lg: '9xl', base: '8xl' }}
+            fontWeight="900"
+          >
             Guild{' '}
             <Text as="span" color="brand.500">
               Zone

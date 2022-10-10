@@ -3,12 +3,20 @@ import {
   Box,
   Button,
   Container,
+  Drawer,
+  DrawerBody,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+  DrawerOverlay,
   Flex,
   HStack,
-  Icon,
+  IconButton,
   Img,
-  Text,
+  Input,
   useDisclosure,
+  useMediaQuery,
+  VStack,
 } from '@chakra-ui/react';
 import { LogInModal } from 'components/modals/logInModal';
 import { SignUpModal } from 'components/modals/signUpModal';
@@ -16,9 +24,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { pipe } from 'ramda';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { HiOutlineMenu } from 'react-icons/hi';
 import { auth, logOut } from 'utils/firebase/auth';
 
 export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
+  const [isMobile] = useMediaQuery('(max-width: 880px)');
   const [user] = useAuthState(auth);
   const router = useRouter();
   const {
@@ -31,12 +41,80 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
     onOpen: onOpenLogInModal,
     onClose: onCloseLogInModal,
   } = useDisclosure();
+  const {
+    isOpen: isOpenDrawer,
+    onOpen: onOpenDrawer,
+    onClose: onCloseDrawer,
+  } = useDisclosure();
 
   const redirectToHome = () => {
     router.push('/');
   };
 
   const handleLogout = pipe(logOut, redirectToHome);
+
+  useEffect(() => {
+    router.events.on('routeChangeStart', onCloseDrawer);
+    return () => {
+      router.events.off('routeChangeStart', onCloseDrawer);
+    };
+  }, []);
+
+  const navDrawer = () => {
+    return (
+      <Drawer isOpen={isOpenDrawer} placement="right" onClose={onCloseDrawer}>
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader borderBottom="1px solid" borderColor="gray.600">
+            <Box>Hi {user?.displayName || 'There'}</Box>
+          </DrawerHeader>
+
+          <DrawerBody>
+            {user?.displayName ? (
+              <Flex direction="column" justify="space-between" h="full">
+                <VStack spacing={8} mt={6}>
+                  <Box w="full">
+                    <Link href="/guild-members">
+                      <a>
+                        <Button variant="link">Guild Members</Button>
+                      </a>
+                    </Link>
+                  </Box>
+                  <Box w="full">
+                    <Link href="/create-guild">
+                      <a>
+                        <Button w="full">Create Guild</Button>
+                      </a>
+                    </Link>
+                  </Box>
+                </VStack>
+                <Box w="full" mb={4}>
+                  <Button variant="link" onClick={handleLogout}>
+                    Log out
+                  </Button>
+                </Box>
+              </Flex>
+            ) : (
+              <VStack spacing={8} mt={6}>
+                <Button
+                  variant="primary"
+                  colorScheme="brand"
+                  onClick={onOpenSignUpModal}
+                  w="full"
+                >
+                  Sign Up
+                </Button>
+                <Button variant="ghost" onClick={onOpenLogInModal} w="full">
+                  Log In
+                </Button>
+              </VStack>
+            )}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    );
+  };
 
   return (
     <>
@@ -53,40 +131,53 @@ export const MainLayout: React.FC<PropsWithChildren> = ({ children }) => {
             </Link>
           </Box>
           <Box>
-            {user?.displayName ? (
-              <HStack spacing={8}>
-                <Link href="/guild-members">
-                  <a>
-                    <Button variant="ghost">Guild Members</Button>
-                  </a>
-                </Link>
-                <Link href="/create-guild">
-                  <a>
-                    <Button variant="solid" colorScheme="gray">
-                      Create Guild
-                    </Button>
-                  </a>
-                </Link>
-                <Box>
-                  Hi {user.displayName},{' '}
-                  <Button variant="ghost" onClick={handleLogout}>
-                    Log out
-                  </Button>
-                </Box>
-              </HStack>
+            {isMobile ? (
+              <>
+                <IconButton
+                  icon={<HiOutlineMenu />}
+                  aria-label="toggle-nav"
+                  onClick={onOpenDrawer}
+                />
+                {navDrawer()}
+              </>
             ) : (
-              <HStack spacing={4}>
-                <Button variant="ghost" onClick={onOpenLogInModal}>
-                  Log In
-                </Button>
-                <Button
-                  variant="primary"
-                  colorScheme="brand"
-                  onClick={onOpenSignUpModal}
-                >
-                  Sign Up
-                </Button>
-              </HStack>
+              <>
+                {user?.displayName ? (
+                  <HStack spacing={8}>
+                    <Link href="/guild-members">
+                      <a>
+                        <Button variant="ghost">Guild Members</Button>
+                      </a>
+                    </Link>
+                    <Link href="/create-guild">
+                      <a>
+                        <Button variant="solid" colorScheme="gray">
+                          Create Guild
+                        </Button>
+                      </a>
+                    </Link>
+                    <Box>
+                      Hi {user.displayName},{' '}
+                      <Button variant="ghost" onClick={handleLogout}>
+                        Log out
+                      </Button>
+                    </Box>
+                  </HStack>
+                ) : (
+                  <HStack spacing={4}>
+                    <Button variant="ghost" onClick={onOpenLogInModal}>
+                      Log In
+                    </Button>
+                    <Button
+                      variant="primary"
+                      colorScheme="brand"
+                      onClick={onOpenSignUpModal}
+                    >
+                      Sign Up
+                    </Button>
+                  </HStack>
+                )}
+              </>
             )}
           </Box>
         </Flex>
